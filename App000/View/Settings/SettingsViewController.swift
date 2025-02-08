@@ -22,7 +22,6 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
                                               icon: UIImage(named: "terms"))
     private let privacy = PrivacyAndTermsButton(title: "Privacy Policy",
                                               icon: UIImage(named: "privacyPolicy"))
-    private var style = ToastStyle()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,9 +38,6 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
         self.welcomeImage.layer.cornerRadius = 4
         self.welcomeImage.image = UIImage(named: "welcomeImage")
         self.welcomeImage.contentMode = .scaleAspectFill
-
-        self.style.backgroundColor = UIColor(hex: "#37A2F4")!
-        self.style.messageColor = UIColor.black
 
         self.view.addSubview(header)
         self.view.addSubview(welcomeImage)

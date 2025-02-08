@@ -28,12 +28,8 @@ class TabBarViewController: UITabBarController {
 
         self.setViewControllers([screensaverViewController, downloadViewController, settingsViewController], animated: true)
         NotificationCenter.default.addObserver(self, selector: #selector(setCurrentPageToTeam), name: Notification.Name("ResetCompleted"), object: nil)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(setCurrentPageToTeam),
-            name: NSNotification.Name("UpdateDataNotification"),
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self, selector: #selector(setCurrentPageToTeam), name: NSNotification.Name("NewMessage"), object: nil)
+        self.selectedIndex = 1
 
         screensaverViewController.delegate = self
         downloadViewController.delegate = self
@@ -41,7 +37,7 @@ class TabBarViewController: UITabBarController {
     }
 
     @objc func setCurrentPageToTeam() {
-        self.selectedIndex = 2
+        self.selectedIndex = 1
     }
 
     private func createNavigation(title: String, image: String, vc: UIViewController) -> UINavigationController {
@@ -83,6 +79,7 @@ class TabBarViewController: UITabBarController {
     deinit {
         #if DEBUG
         print("deinit \(String(describing: self))")
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("NewMessage"), object: nil)
         #endif
     }
 }

@@ -8,20 +8,47 @@
 import UIKit
 import App000ViewModel
 import SnapKit
+import Photos
+import Toast
 
 class DownloadViewController: BaseViewController, UICollectionViewDelegate {
 
     var viewModel: ViewModel?
 
+    private let emptyLabel = UILabel(text: "You do not have a selected image to upload, please select an image in the 'Screensavers' section. ",
+                                     textColor: .black,
+                                     font: UIFont(name: "SFProText-Regular", size: 17))
+    private let downloadButton = UIButton(type: .system)
+    private let image = UIImageView()
+    private var style = ToastStyle()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         makeButtonsAction()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("NewMessage"), object: nil)
     }
 
     override func setupUI() {
         super.setupUI()
         self.view.backgroundColor = .white
 
+        self.title = "Download"
+
+        self.downloadButton.setTitle("Download", for: .normal)
+        self.downloadButton.setTitleColor(.black, for: .normal)
+        self.downloadButton.titleLabel?.font = UIFont(name: "SFProText-Bold", size: 15)
+        self.downloadButton.backgroundColor = UIColor(hex: "#37A2F4")
+        self.downloadButton.layer.masksToBounds = true
+        self.downloadButton.layer.cornerRadius = 12
+
+        self.emptyLabel.numberOfLines = 3
+
+        self.style.backgroundColor = UIColor.white
+        self.style.messageColor = UIColor.black
+
+        self.view.addSubview(downloadButton)
+        self.view.addSubview(emptyLabel)
+        self.view.addSubview(image)
         setupConstraints()
     }
 
@@ -31,7 +58,27 @@ class DownloadViewController: BaseViewController, UICollectionViewDelegate {
     }
 
     func setupConstraints() {
+        downloadButton.snp.makeConstraints { view in
+            view.bottom.equalToSuperview().inset(117)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.height.equalTo(50)
+        }
 
+        emptyLabel.snp.makeConstraints { view in
+            view.leading.equalToSuperview().offset(26)
+            view.trailing.equalToSuperview().inset(26)
+            view.centerX.equalToSuperview()
+            view.centerY.equalToSuperview()
+            view.height.equalTo(70)
+        }
+
+        image.snp.makeConstraints { view in
+            view.top.equalToSuperview().inset(140)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.bottom.equalToSuperview().inset(179)
+        }
     }
 }
 
@@ -44,9 +91,46 @@ extension DownloadViewController: IViewModelableController {
 extension DownloadViewController {
     
     private func makeButtonsAction() {
-        
+        self.downloadButton.addTarget(self, action: #selector(downloadImage), for: .touchUpInside)
     }
 
+    @objc func downloadImage() {
+        guard let imageToSave = image.image else {
+            self.view.makeToast("You do not have a selected image to upload.", duration: 2.0, position: .bottom, style: style)
+            return
+        }
+
+        PHPhotoLibrary.requestAuthorization { [self] status in
+            if status == .authorized {
+                UIImageWriteToSavedPhotosAlbum(imageToSave, self, #selector(self.imageSaved(_:didFinishSavingWithError:contextInfo:)), nil)
+            } else {
+                self.view.makeToast("There is no permission to save the image.", duration: 2.0, position: .bottom, style: style)
+            }
+        }
+    }
+
+    @objc func imageSaved(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            self.view.makeToast("Saving error.", duration: 2.0, position: .bottom, style: style)
+        } else {
+
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Success", message: "Image has been saved to your gallery.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
+        }
+    }
+
+    private func listenToNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("NewMessage"), object: nil)
+    }
+
+    @objc func handleNotification(_ notification: Notification) {
+        if let image = notification.userInfo?["imageName"] {
+            self.image.image = UIImage(named: "\(image)")
+        }
+    }
 }
 
 //MARK: Preview

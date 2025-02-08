@@ -31,6 +31,10 @@ class ScreensaverViewController: BaseViewController, UICollectionViewDelegate {
         makeButtonsAction()
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("NewMessage"), object: nil)
+    }
+
     override func setupUI() {
         super.setupUI()
         self.view.backgroundColor = .white
@@ -187,6 +191,18 @@ extension ScreensaverViewController: UICollectionViewDataSource, UICollectionVie
             return CGSize(width: itemWidth, height: 226)
         }
         return .zero
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == popularCollectionView {
+            if let imageName = self.viewModel?.popularItems[indexPath.row].image {
+                NotificationCenter.default.post(name: NSNotification.Name("NewMessage"), object: nil, userInfo: ["imageName": imageName])
+            }
+        } else if collectionView == nonpopularCollectionView {
+            if let imageName = self.viewModel?.nonPopularItems[indexPath.row].image {
+                NotificationCenter.default.post(name: NSNotification.Name("NewMessage"), object: nil, userInfo: ["imageName": imageName])
+            }
+        }
     }
 }
 
