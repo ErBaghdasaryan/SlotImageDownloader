@@ -13,6 +13,7 @@
 		CCB88B572D52123A0098027A /* SwinjectAutoregistration in Frameworks */ = {isa = PBXBuildFile; productRef = CCB88B562D52123A0098027A /* SwinjectAutoregistration */; };
 		CCB88B672D5214580098027A /* App000Model in Frameworks */ = {isa = PBXBuildFile; productRef = CCB88B662D5214580098027A /* App000Model */; };
 		CCB88B692D5214580098027A /* App000ViewModel in Frameworks */ = {isa = PBXBuildFile; productRef = CCB88B682D5214580098027A /* App000ViewModel */; };
+		CCB88BCA2D5625650098027A /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = CCB88BC92D5625650098027A /* Toast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 				CCB88B692D5214580098027A /* App000ViewModel in Frameworks */,
 				CCB88B522D52122D0098027A /* Swinject in Frameworks */,
 				CCB88B672D5214580098027A /* App000Model in Frameworks */,
+				CCB88BCA2D5625650098027A /* Toast in Frameworks */,
 				CCB88B572D52123A0098027A /* SwinjectAutoregistration in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,6 +160,7 @@
 				CCB88B562D52123A0098027A /* SwinjectAutoregistration */,
 				CCB88B662D5214580098027A /* App000Model */,
 				CCB88B682D5214580098027A /* App000ViewModel */,
+				CCB88BC92D5625650098027A /* Toast */,
 			);
 			productName = App000;
 			productReference = CCB88B0E2D5210D90098027A /* App000.app */;
@@ -246,6 +249,7 @@
 				CCB88B4D2D52121B0098027A /* XCRemoteSwiftPackageReference "SQLite.swift" */,
 				CCB88B502D52122D0098027A /* XCRemoteSwiftPackageReference "Swinject" */,
 				CCB88B552D52123A0098027A /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */,
+				CCB88BC82D5625650098027A /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CCB88B0F2D5210D90098027A /* Products */;
@@ -331,7 +335,7 @@
 				DEVELOPMENT_TEAM = 5PTH9U4CB9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App000/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = App000;
+				INFOPLIST_KEY_CFBundleDisplayName = Aesthetica;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
@@ -350,7 +354,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -364,7 +368,7 @@
 				DEVELOPMENT_TEAM = 5PTH9U4CB9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App000/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = App000;
+				INFOPLIST_KEY_CFBundleDisplayName = Aesthetica;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
@@ -383,7 +387,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -652,6 +656,14 @@
 				minimumVersion = 2.9.1;
 			};
 		};
+		CCB88BC82D5625650098027A /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -682,6 +694,11 @@
 		CCB88B682D5214580098027A /* App000ViewModel */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App000ViewModel;
+		};
+		CCB88BC92D5625650098027A /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCB88BC82D5625650098027A /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

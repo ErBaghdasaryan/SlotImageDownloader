@@ -29,4 +29,46 @@ final class ViewControllerFactory {
         return viewController
     }
 
+    //MARK: - TabBar
+    static func makeTabBarViewController() -> TabBarViewController {
+        let viewController = TabBarViewController()
+        return viewController
+    }
+
+    //MARK: Screensaver
+    static func makeScreensaverViewController() -> ScreensaverViewController {
+        let assembler = Assembler(commonAssemblies + [ScreensaverAssembly()])
+        let viewController = ScreensaverViewController()
+        viewController.viewModel = assembler.resolver.resolve(IScreensaverViewModel.self)
+        return viewController
+    }
+
+    //MARK: Download
+    static func makeDownloadViewController() -> DownloadViewController {
+        let assembler = Assembler(commonAssemblies + [DownloadAssembly()])
+        let viewController = DownloadViewController()
+        viewController.viewModel = assembler.resolver.resolve(IDownloadViewModel.self)
+        return viewController
+    }
+
+    //MARK: Settings
+    static func makeSettingsViewController() -> SettingsViewController {
+        let assembler = Assembler(commonAssemblies + [SettingsAssembly()])
+        let viewController = SettingsViewController()
+        viewController.viewModel = assembler.resolver.resolve(ISettingsViewModel.self)
+        return viewController
+    }
+
+    //MARK: PrivacyPolicy
+    static func makePrivacyViewController() -> PrivacyViewController {
+        let viewController = PrivacyViewController()
+        return viewController
+    }
+
+    //MARK: Terms
+    static func makeTermsViewController() -> TermsViewController {
+        let viewController = TermsViewController()
+        return viewController
+    }
+
 }
