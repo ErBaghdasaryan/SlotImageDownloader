@@ -20,23 +20,34 @@ public class ScreensaverService: IScreensaverService {
     public func getPopularItems() -> [GamePresentationModel] {
         [
             GamePresentationModel(image: "popular1"),
+            GamePresentationModel(image: "main7"),
+            GamePresentationModel(image: "main1"),
+            GamePresentationModel(image: "main3"),
             GamePresentationModel(image: "popular2"),
-            GamePresentationModel(image: "popular3")
+            GamePresentationModel(image: "main9"),
+            GamePresentationModel(image: "main2"),
+            GamePresentationModel(image: "main5"),
+            GamePresentationModel(image: "popular3"),
+            GamePresentationModel(image: "main4"),
+            GamePresentationModel(image: "main8"),
+            GamePresentationModel(image: "main6")
         ]
     }
 
     public func getNonPopularItems() -> [GamePresentationModel] {
         [
-            GamePresentationModel(image: "nonPopular1"),
-            GamePresentationModel(image: "nonPopular2"),
-            GamePresentationModel(image: "nonPopular3"),
-            GamePresentationModel(image: "nonPopular4"),
-            GamePresentationModel(image: "nonPopular5"),
-            GamePresentationModel(image: "nonPopular6"),
-            GamePresentationModel(image: "nonPopular7"),
-            GamePresentationModel(image: "nonPopular8"),
-            GamePresentationModel(image: "nonPopular9"),
-            GamePresentationModel(image: "nonPopular10")
+            GamePresentationModel(image: "main1"),
+            GamePresentationModel(image: "main2"),
+            GamePresentationModel(image: "main3"),
+            GamePresentationModel(image: "popular1"),
+            GamePresentationModel(image: "main4"),
+            GamePresentationModel(image: "popular2"),
+            GamePresentationModel(image: "popular3"),
+            GamePresentationModel(image: "main5"),
+            GamePresentationModel(image: "main6"),
+            GamePresentationModel(image: "main7"),
+            GamePresentationModel(image: "main8"),
+            GamePresentationModel(image: "main9")
         ]
     }
 

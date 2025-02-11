@@ -21,7 +21,7 @@ class ScreensaverViewController: BaseViewController, UICollectionViewDelegate {
                                  font: UIFont(name: "SFProText-Black", size: 20))
     var popularCollectionView: UICollectionView!
     
-    private let games = UILabel(text: "Games",
+    private let games = UILabel(text: "Main",
                                  textColor: .black,
                                  font: UIFont(name: "SFProText-Black", size: 20))
     var nonpopularCollectionView: UICollectionView!

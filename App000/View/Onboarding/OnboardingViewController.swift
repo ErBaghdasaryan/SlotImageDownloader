@@ -14,10 +14,12 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
 
     var viewModel: ViewModel?
 
+    private let headerImage = UIImageView(image: UIImage(named: "onboardingTop"))
+    private let backgroundImage = UIImageView(image: UIImage(named: "onboardingBackground"))
     var collectionView: UICollectionView!
     private let header = UILabel(text: "Header",
-                                 textColor: .black,
-                                 font: UIFont(name: "SFProText-Black", size: 25))
+                                 textColor: .white,
+                                 font: UIFont(name: "SFProText-Bold", size: 25))
     private let pageControl = AdvancedPageControlView()
     private let nextButton = UIButton(type: .system)
     private var currentIndex: Int = 0
@@ -41,6 +43,8 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
         self.nextButton.backgroundColor = UIColor(hex: "#37A2F4")
         self.nextButton.layer.masksToBounds = true
         self.nextButton.layer.cornerRadius = 12
+
+        self.backgroundImage.frame = view.bounds
 
         let mylayout = UICollectionViewFlowLayout()
         mylayout.itemSize = sizeForItem()
@@ -68,9 +72,11 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
                                                indicatorBorderWidth: 0.0)
         pageControl.setPage(0)
 
-        self.view.addSubview(pageControl)
         self.view.addSubview(collectionView)
+        self.view.addSubview(backgroundImage)
+        self.view.addSubview(headerImage)
         self.view.addSubview(header)
+        self.view.addSubview(pageControl)
         self.view.addSubview(nextButton)
         setupConstraints()
     }
@@ -99,25 +105,32 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
     }
 
     func setupConstraints() {
-        pageControl.snp.makeConstraints { view in
-            view.top.equalToSuperview().offset(59)
-            view.leading.equalToSuperview().offset(181)
-            view.trailing.equalToSuperview().inset(181)
-            view.height.equalTo(10)
-        }
-
-        header.snp.makeConstraints { view in
-            view.top.equalTo(pageControl.snp.bottom).offset(20)
-            view.leading.equalToSuperview().offset(5)
-            view.trailing.equalToSuperview().inset(5)
-            view.height.equalTo(105)
-        }
-
         collectionView.snp.makeConstraints { view in
-            view.top.equalTo(header.snp.bottom).offset(11)
+            view.top.equalToSuperview().offset(11)
             view.leading.equalToSuperview().offset(64)
             view.trailing.equalToSuperview().inset(64)
             view.bottom.equalToSuperview().inset(129)
+        }
+
+        headerImage.snp.makeConstraints { view in
+            view.top.equalToSuperview().offset(100)
+            view.centerX.equalToSuperview()
+            view.height.equalTo(24)
+            view.width.equalTo(300)
+        }
+
+        header.snp.makeConstraints { view in
+            view.centerX.equalToSuperview()
+            view.centerY.equalToSuperview()
+            view.width.equalTo(360)
+            view.height.equalTo(102)
+        }
+
+        pageControl.snp.makeConstraints { view in
+            view.bottom.equalToSuperview().inset(145)
+            view.centerX.equalToSuperview()
+            view.width.equalTo(35)
+            view.height.equalTo(10)
         }
 
         nextButton.snp.makeConstraints { view in

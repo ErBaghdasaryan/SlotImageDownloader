@@ -14,10 +14,9 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
 
     var viewModel: ViewModel?
 
-    private let header = UILabel(text: "About us",
+    private let header = UILabel(text: "Settings",
                                  textColor: .black,
                                  font: UIFont(name: "SFProText-Black", size: 28))
-    private let welcomeImage = UIImageView()
     private let terms = PrivacyAndTermsButton(title: "Terms&Conditions",
                                               icon: UIImage(named: "terms"))
     private let privacy = PrivacyAndTermsButton(title: "Privacy Policy",
@@ -34,13 +33,7 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
 
         self.header.textAlignment = .left
 
-        self.welcomeImage.layer.masksToBounds = true
-        self.welcomeImage.layer.cornerRadius = 4
-        self.welcomeImage.image = UIImage(named: "welcomeImage")
-        self.welcomeImage.contentMode = .scaleAspectFill
-
         self.view.addSubview(header)
-        self.view.addSubview(welcomeImage)
         self.view.addSubview(terms)
         self.view.addSubview(privacy)
         setupConstraints()
@@ -59,15 +52,8 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
             view.height.equalTo(34)
         }
 
-        welcomeImage.snp.makeConstraints { view in
-            view.top.equalTo(header.snp.bottom).offset(20)
-            view.leading.equalToSuperview().offset(16)
-            view.trailing.equalToSuperview().inset(16)
-            view.height.equalTo(206)
-        }
-
         terms.snp.makeConstraints { view in
-            view.top.equalTo(welcomeImage.snp.bottom).offset(20)
+            view.top.equalTo(header.snp.bottom).offset(20)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
             view.height.equalTo(74)
