@@ -9,14 +9,16 @@ import Foundation
 import App000Model
 
 public protocol IDownloadViewModel {
-    
+    var imageName: String { get }
 }
 
 public class DownloadViewModel: IDownloadViewModel {
 
     private let downloadService: IDownloadService
+    public var imageName: String
 
-    public init(downloadService: IDownloadService) {
+    public init(downloadService: IDownloadService, navigationModel: DownloadNavigationModel) {
         self.downloadService = downloadService
+        self.imageName = navigationModel.imageName
     }
 }

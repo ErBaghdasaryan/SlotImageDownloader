@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "onesignal-xcframework",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/OneSignal/OneSignal-XCFramework",
+      "state" : {
+        "revision" : "3bc37b379581442be7d6337d01f5c7e5d6a4cdde",
+        "version" : "5.2.9"
+      }
+    },
+    {
       "identity" : "snapkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SnapKit/SnapKit.git",

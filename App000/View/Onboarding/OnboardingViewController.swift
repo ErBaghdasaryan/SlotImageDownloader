@@ -14,12 +14,13 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
 
     var viewModel: ViewModel?
 
-    private let headerImage = UIImageView(image: UIImage(named: "onboardingTop"))
-    private let backgroundImage = UIImageView(image: UIImage(named: "onboardingBackground"))
     var collectionView: UICollectionView!
     private let header = UILabel(text: "Header",
                                  textColor: .white,
-                                 font: UIFont(name: "SFProText-Bold", size: 25))
+                                 font: UIFont(name: "SFProText-Bold", size: 24))
+    private let subHeader = UILabel(text: "Subheader",
+                                    textColor: .white,
+                                    font: UIFont(name: "SFProText-Regular", size: 15))
     private let pageControl = AdvancedPageControlView()
     private let nextButton = UIButton(type: .system)
     private var currentIndex: Int = 0
@@ -32,19 +33,20 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
     override func setupUI() {
         super.setupUI()
 
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(hex: "#1C1C1E")
 
-        header.numberOfLines = 3
-        header.lineBreakMode = .byWordWrapping
+        self.header.numberOfLines = 1
+        self.header.lineBreakMode = .byWordWrapping
+
+        self.subHeader.numberOfLines = 2
+        self.subHeader.lineBreakMode = .byWordWrapping
 
         self.nextButton.setTitle("Next", for: .normal)
         self.nextButton.setTitleColor(.black, for: .normal)
         self.nextButton.titleLabel?.font = UIFont(name: "SFProText-Bold", size: 15)
-        self.nextButton.backgroundColor = UIColor(hex: "#37A2F4")
+        self.nextButton.backgroundColor = UIColor(hex: "#0084FF")
         self.nextButton.layer.masksToBounds = true
         self.nextButton.layer.cornerRadius = 12
-
-        self.backgroundImage.frame = view.bounds
 
         let mylayout = UICollectionViewFlowLayout()
         mylayout.itemSize = sizeForItem()
@@ -60,11 +62,11 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
         collectionView.backgroundColor = .clear
         collectionView.isScrollEnabled = false
 
-        pageControl.drawer = ExtendedDotDrawer(numberOfPages: 2,
+        pageControl.drawer = ExtendedDotDrawer(numberOfPages: 3,
                                                height: 10,
                                                width: 10,
                                                space: 8,
-                                               indicatorColor: UIColor(hex: "#37A2F4"),
+                                               indicatorColor: UIColor(hex: "#0084FF"),
                                                dotsColor: UIColor(hex: "#E6E7E8"),
                                                isBordered: true,
                                                borderWidth: 0.0,
@@ -72,11 +74,10 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
                                                indicatorBorderWidth: 0.0)
         pageControl.setPage(0)
 
-        self.view.addSubview(collectionView)
-        self.view.addSubview(backgroundImage)
-        self.view.addSubview(headerImage)
-        self.view.addSubview(header)
         self.view.addSubview(pageControl)
+        self.view.addSubview(collectionView)
+        self.view.addSubview(header)
+        self.view.addSubview(subHeader)
         self.view.addSubview(nextButton)
         setupConstraints()
     }
@@ -86,6 +87,9 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
         collectionView.delegate = self
         collectionView.dataSource = self
         viewModel?.loadData()
+        collectionView.reloadData()
+        self.setHeaderAttributedText(of: 0)
+        subHeader.text = viewModel?.onboardingItems[0].subHeader
     }
 
     func sizeForItem() -> CGSize {
@@ -105,36 +109,36 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
     }
 
     func setupConstraints() {
-        collectionView.snp.makeConstraints { view in
-            view.top.equalToSuperview().offset(11)
-            view.leading.equalToSuperview().offset(64)
-            view.trailing.equalToSuperview().inset(64)
-            view.bottom.equalToSuperview().inset(129)
-        }
-
-        headerImage.snp.makeConstraints { view in
-            view.top.equalToSuperview().offset(100)
-            view.centerX.equalToSuperview()
-            view.height.equalTo(24)
-            view.width.equalTo(300)
-        }
-
-        header.snp.makeConstraints { view in
-            view.centerX.equalToSuperview()
-            view.centerY.equalToSuperview()
-            view.width.equalTo(360)
-            view.height.equalTo(102)
-        }
-
         pageControl.snp.makeConstraints { view in
-            view.bottom.equalToSuperview().inset(145)
+            view.top.equalToSuperview().offset(89)
             view.centerX.equalToSuperview()
-            view.width.equalTo(35)
+            view.width.equalTo(70)
             view.height.equalTo(10)
         }
 
+        collectionView.snp.makeConstraints { view in
+            view.top.equalTo(pageControl.snp.bottom).offset(123)
+            view.leading.equalToSuperview().offset(32)
+            view.trailing.equalToSuperview().inset(32)
+            view.bottom.equalToSuperview().inset(319)
+        }
+
+        header.snp.makeConstraints { view in
+            view.top.equalTo(collectionView.snp.bottom).offset(60)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.height.equalTo(34)
+        }
+
+        subHeader.snp.makeConstraints { view in
+            view.top.equalTo(header.snp.bottom).offset(16)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.height.equalTo(40)
+        }
+
         nextButton.snp.makeConstraints { view in
-            view.top.equalTo(collectionView.snp.bottom).offset(17)
+            view.bottom.equalToSuperview().inset(75)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
             view.height.equalTo(50)
@@ -150,6 +154,34 @@ extension OnboardingViewController {
         nextButton.addTarget(self, action: #selector(nextButtonTaped), for: .touchUpInside)
     }
 
+    private func setHeaderAttributedText(of index: Int) {
+
+        guard let fullText = viewModel?.onboardingItems[index].header else { return }
+        var highlightedText: String!
+
+        switch index {
+        case 0:
+            highlightedText = "U"
+        case 1:
+            highlightedText = "2 Weeks"
+        case 2:
+            highlightedText = "Updated"
+        default:
+            break
+        }
+
+        let attributedString = NSMutableAttributedString(string: fullText)
+
+        attributedString.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: fullText.count))
+
+        if let range = fullText.range(of: highlightedText) {
+            let nsRange = NSRange(range, in: fullText)
+            attributedString.addAttribute(.foregroundColor, value: UIColor(hex: "#0084FF")!, range: nsRange)
+        }
+
+        header.attributedText = attributedString
+    }
+
     @objc func nextButtonTaped() {
         guard let navigationController = self.navigationController else { return }
 
@@ -160,7 +192,7 @@ extension OnboardingViewController {
             let nextIndexPath = IndexPath(item: nextRow, section: 0)
             self.collectionView.scrollToItem(at: nextIndexPath, at: .centeredHorizontally, animated: true)
             self.currentIndex = nextRow
-            self.pageControl.setPage(1)
+            performActionForPage(index: currentIndex)
         } else {
             OnboardingRouter.showTabBarViewController(in: navigationController)
         }
@@ -170,25 +202,26 @@ extension OnboardingViewController {
         let visibleItems = collectionView.indexPathsForVisibleItems.sorted()
         if let visibleItem = visibleItems.first {
             currentIndex = visibleItem.item
+            performActionForPage(index: currentIndex)
         }
     }
 
-    private func rate() {
-        if #available(iOS 14.0, *) {
-            SKStoreReviewController.requestReview()
-        } else {
-            let alertController = UIAlertController(
-                title: "Enjoying the app?",
-                message: "Please consider leaving us a review in the App Store!",
-                preferredStyle: .alert
-            )
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            alertController.addAction(UIAlertAction(title: "Go to App Store", style: .default) { _ in
-                if let appStoreURL = URL(string: "https://apps.apple.com/us/app/id6738990497") {
-                    UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
-                }
-            })
-            present(alertController, animated: true, completion: nil)
+    func performActionForPage(index: Int) {
+        switch index {
+        case 0:
+            pageControl.setPage(0)
+            self.setHeaderAttributedText(of: index)
+            subHeader.text = viewModel?.onboardingItems[index].subHeader
+        case 1:
+            pageControl.setPage(1)
+            self.setHeaderAttributedText(of: index)
+            subHeader.text = viewModel?.onboardingItems[index].subHeader
+        case 2:
+            pageControl.setPage(2)
+            self.setHeaderAttributedText(of: index)
+            subHeader.text = viewModel?.onboardingItems[index].subHeader
+        default:
+            break
         }
     }
 }
@@ -204,14 +237,12 @@ extension OnboardingViewController: UICollectionViewDataSource, UICollectionView
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: OnboardingCell = collectionView.dequeueReusableCell(for: indexPath)
-        header.text = viewModel?.onboardingItems[indexPath.row].header
         cell.setup(image: viewModel?.onboardingItems[indexPath.row].image ?? "")
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        return sizeForItem()
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
 }
 

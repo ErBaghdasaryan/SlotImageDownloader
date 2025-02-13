@@ -8,59 +8,36 @@
 import UIKit
 import SnapKit
 
-public class PrivacyAndTermsButton: UIView {
+class PrivacyAndTermsButton: UIButton {
 
-    private let iconImageView = UIImageView()
-    private let titleLabel = UILabel()
-    public let readButton = UIButton(type: .system)
-
-    public init(title: String, icon: UIImage?) {
-        super.init(frame: .zero)
-        setupView(title: title, icon: icon)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupView(title: "Default Title", icon: UIImage(systemName: "person.2.fill"))
+        setupUI()
     }
-    
-    private func setupView(title: String, icon: UIImage?) {
-        backgroundColor = UIColor(hex: "#CAECFF")
 
-        layer.cornerRadius = 12
+    private func setupUI() {
+        self.backgroundColor = UIColor(hex: "#2E2E2E")
+        self.setTitleColor(.white, for: .normal)
+        self.titleLabel?.font = UIFont(name: "SFProText-Regular", size: 17)
+        self.contentHorizontalAlignment = .left
+        self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 0)
+        self.layer.cornerRadius = 16
+        self.layer.masksToBounds = true
 
-        iconImageView.image = icon
-        iconImageView.tintColor = .black
+        let arrowImage = UIImageView(image: UIImage(systemName: "chevron.right"))
+        arrowImage.tintColor = .white
+        self.addSubview(arrowImage)
 
-        titleLabel.text = title
-        titleLabel.font = UIFont(name: "SFProText-Bold", size: 17)
-        titleLabel.textColor = .black
-
-        readButton.setTitle("Read", for: .normal)
-        readButton.setTitleColor(.black, for: .normal)
-        readButton.backgroundColor = UIColor(hex: "#37A2F4")
-        readButton.layer.cornerRadius = 17
-
-        addSubview(iconImageView)
-        addSubview(titleLabel)
-        addSubview(readButton)
-
-        iconImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(16)
+        arrowImage.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(18.75)
             make.centerY.equalToSuperview()
-            make.size.equalTo(24)
-        }
-
-        titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(iconImageView.snp.trailing).offset(6)
-            make.centerY.equalToSuperview()
-        }
-
-        readButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-16)
-            make.centerY.equalToSuperview()
-            make.width.equalTo(63)
-            make.height.equalTo(34)
+            make.width.equalTo(9)
+            make.height.equalTo(16.5)
         }
     }
 }

@@ -9,27 +9,20 @@ import Foundation
 import App000Model
 
 public protocol IScreensaverViewModel {
-    var popularItems: [GamePresentationModel] { get set }
-    func loadPopularGames()
-    var nonPopularItems: [GamePresentationModel] { get set }
-    func loadNonPopularGames()
+    var items: [GamePresentationModel] { get set }
+    func loadItems()
 }
 
 public class ScreensaverViewModel: IScreensaverViewModel {
 
     private let screensaverService: IScreensaverService
-    public var popularItems: [GamePresentationModel] = []
-    public var nonPopularItems: [GamePresentationModel] = []
+    public var items: [GamePresentationModel] = []
 
     public init(screensaverService: IScreensaverService) {
         self.screensaverService = screensaverService
     }
 
-    public func loadPopularGames() {
-        popularItems = screensaverService.getPopularItems()
-    }
-
-    public func loadNonPopularGames() {
-        nonPopularItems = screensaverService.getNonPopularItems()
+    public func loadItems() {
+        items = screensaverService.getItems()
     }
 }

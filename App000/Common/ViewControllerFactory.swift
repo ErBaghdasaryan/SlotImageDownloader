@@ -13,14 +13,6 @@ import App000ViewModel
 final class ViewControllerFactory {
     private static let commonAssemblies: [Assembly] = [ServiceAssembly()]
 
-    //MARK: - UntilOnboarding
-    static func makeUntilOnboardingViewController() -> UntilOnboardingViewController {
-        let assembler = Assembler(commonAssemblies + [UntilOnboardingAssembly()])
-        let viewController = UntilOnboardingViewController()
-        viewController.viewModel = assembler.resolver.resolve(IUntilOnboardingViewModel.self)
-        return viewController
-    }
-
     //MARK: Onboarding
     static func makeOnboardingViewController() -> OnboardingViewController {
         let assembler = Assembler(commonAssemblies + [OnboardingAssembly()])
@@ -44,10 +36,10 @@ final class ViewControllerFactory {
     }
 
     //MARK: Download
-    static func makeDownloadViewController() -> DownloadViewController {
+    static func makeDownloadViewController(navigationModel: DownloadNavigationModel) -> DownloadViewController {
         let assembler = Assembler(commonAssemblies + [DownloadAssembly()])
         let viewController = DownloadViewController()
-        viewController.viewModel = assembler.resolver.resolve(IDownloadViewModel.self)
+        viewController.viewModel = assembler.resolver.resolve(IDownloadViewModel.self, argument: navigationModel)
         return viewController
     }
 
@@ -56,6 +48,12 @@ final class ViewControllerFactory {
         let assembler = Assembler(commonAssemblies + [SettingsAssembly()])
         let viewController = SettingsViewController()
         viewController.viewModel = assembler.resolver.resolve(ISettingsViewModel.self)
+        return viewController
+    }
+
+    //MARK: About
+    static func makeAboutViewController() -> AboutViewController {
+        let viewController = AboutViewController()
         return viewController
     }
 

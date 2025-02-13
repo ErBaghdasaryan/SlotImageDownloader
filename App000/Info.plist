@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We use data about your activity in the app to improve the quality of content and advertising. You can disable tracking in the settings.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SF-Pro-Text-Black.otf</string>
@@ -27,5 +29,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>

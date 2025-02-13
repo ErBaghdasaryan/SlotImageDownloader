@@ -18,9 +18,14 @@ public class OnboardingService: IOnboardingService {
     public func getOnboardingItems() -> [OnboardingPresentationModel] {
         [
             OnboardingPresentationModel(image: "onboarding1",
-                                        header: "Explore the best images and decorate your screen with stylish wallpapers!"),
+                                        header: "Wallpapers, Just for U",
+                                        subHeader: "Hand-picked selection of 30 premium wallpapers, refreshed every 2 weeks."),
             OnboardingPresentationModel(image: "onboarding2",
-                                        header: "Discover the best and most downloaded wallpapers in the 'Popular' section!")
+                                        header: "Wallpapers Every 2 Weeks",
+                                        subHeader: "Enjoy a brand-new collection of exclusive designs, carefully selected by our editors."),
+            OnboardingPresentationModel(image: "onboarding3",
+                                        header: "Stay Updated & Keep It Fresh",
+                                        subHeader: "Check back regularly for new themes and styles – a fresh look is always waiting!")
         ]
     }
 }

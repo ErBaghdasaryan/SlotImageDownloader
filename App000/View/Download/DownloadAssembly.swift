@@ -7,6 +7,7 @@
 
 import Foundation
 import App000ViewModel
+import App000Model
 import Swinject
 import SwinjectAutoregistration
 
@@ -17,7 +18,7 @@ final class DownloadAssembly: Assembly {
     }
 
     func registerViewModel(in container: Container) {
-        container.autoregister(IDownloadViewModel.self, initializer: DownloadViewModel.init)
+        container.autoregister(IDownloadViewModel.self, argument: DownloadNavigationModel.self, initializer: DownloadViewModel.init)
     }
 
     func registerViewModelServices(in container: Container) {

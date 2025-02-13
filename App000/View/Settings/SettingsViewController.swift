@@ -15,12 +15,12 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
     var viewModel: ViewModel?
 
     private let header = UILabel(text: "Settings",
-                                 textColor: .black,
-                                 font: UIFont(name: "SFProText-Black", size: 28))
-    private let terms = PrivacyAndTermsButton(title: "Terms&Conditions",
-                                              icon: UIImage(named: "terms"))
-    private let privacy = PrivacyAndTermsButton(title: "Privacy Policy",
-                                              icon: UIImage(named: "privacyPolicy"))
+                                 textColor: .white,
+                                 font: UIFont(name: "SFProText-Bold", size: 28))
+    private let about = PrivacyAndTermsButton()
+    private let terms = PrivacyAndTermsButton()
+    private let privacy = PrivacyAndTermsButton()
+    private let notify = NotifButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,13 +29,20 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
 
     override func setupUI() {
         super.setupUI()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(hex: "#1C1C1E")
 
         self.header.textAlignment = .left
 
+        self.about.setTitle("About our project", for: .normal)
+        self.terms.setTitle("Terms&Conditions", for: .normal)
+        self.privacy.setTitle("Privacy Policy", for: .normal)
+        self.notify.setTitle("Push Notification", for: .normal)
+
         self.view.addSubview(header)
+        self.view.addSubview(about)
         self.view.addSubview(terms)
         self.view.addSubview(privacy)
+        self.view.addSubview(notify)
         setupConstraints()
     }
 
@@ -52,18 +59,32 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
             view.height.equalTo(34)
         }
 
-        terms.snp.makeConstraints { view in
-            view.top.equalTo(header.snp.bottom).offset(20)
+        about.snp.makeConstraints { view in
+            view.top.equalTo(header.snp.bottom).offset(32)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
-            view.height.equalTo(74)
+            view.height.equalTo(56)
+        }
+
+        terms.snp.makeConstraints { view in
+            view.top.equalTo(about.snp.bottom).offset(16)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.height.equalTo(56)
         }
 
         privacy.snp.makeConstraints { view in
-            view.top.equalTo(terms.snp.bottom).offset(8)
+            view.top.equalTo(terms.snp.bottom).offset(16)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
-            view.height.equalTo(74)
+            view.height.equalTo(56)
+        }
+
+        notify.snp.makeConstraints { view in
+            view.top.equalTo(privacy.snp.bottom).offset(16)
+            view.leading.equalToSuperview().offset(16)
+            view.trailing.equalToSuperview().inset(16)
+            view.height.equalTo(56)
         }
     }
 }
@@ -77,8 +98,15 @@ extension SettingsViewController: IViewModelableController {
 extension SettingsViewController {
     
     private func makeButtonsAction() {
-        self.terms.readButton.addTarget(self, action: #selector(termsTapped), for: .touchUpInside)
-        self.privacy.readButton.addTarget(self, action: #selector(privacyTapped), for: .touchUpInside)
+        self.about.addTarget(self, action: #selector(aboutTapped), for: .touchUpInside)
+        self.terms.addTarget(self, action: #selector(termsTapped), for: .touchUpInside)
+        self.privacy.addTarget(self, action: #selector(privacyTapped), for: .touchUpInside)
+    }
+
+    @objc func aboutTapped() {
+        guard let navigationController = self.navigationController else { return }
+
+        SettingsRouter.showAboutViewController(in: navigationController)
     }
 
     @objc func termsTapped() {

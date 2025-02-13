@@ -16,7 +16,7 @@ class DownloadViewController: BaseViewController, UICollectionViewDelegate {
     var viewModel: ViewModel?
 
     private let emptyLabel = UILabel(text: "You do not have a selected image to upload, please select an image in the 'Screensavers' section. ",
-                                     textColor: .black,
+                                     textColor: .white,
                                      font: UIFont(name: "SFProText-Regular", size: 17))
     private let downloadButton = UIButton(type: .system)
     private let image = UIImageView()
@@ -25,21 +25,34 @@ class DownloadViewController: BaseViewController, UICollectionViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         makeButtonsAction()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("NewMessage"), object: nil)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let name = self.viewModel?.imageName else { return }
+        self.image.image = UIImage(named: name)
     }
 
     override func setupUI() {
         super.setupUI()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(hex: "#1C1C1E")
 
         self.title = "Download"
+
+        self.navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: UIColor.white
+        ]
 
         self.downloadButton.setTitle("Download", for: .normal)
         self.downloadButton.setTitleColor(.black, for: .normal)
         self.downloadButton.titleLabel?.font = UIFont(name: "SFProText-Bold", size: 15)
-        self.downloadButton.backgroundColor = UIColor(hex: "#37A2F4")
+        self.downloadButton.backgroundColor = UIColor(hex: "#0084FF")
         self.downloadButton.layer.masksToBounds = true
         self.downloadButton.layer.cornerRadius = 12
+
+        self.image.layer.masksToBounds = true
+        self.image.layer.cornerRadius = 30
+        self.image.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         self.emptyLabel.numberOfLines = 3
 
@@ -59,7 +72,7 @@ class DownloadViewController: BaseViewController, UICollectionViewDelegate {
 
     func setupConstraints() {
         downloadButton.snp.makeConstraints { view in
-            view.bottom.equalToSuperview().inset(117)
+            view.bottom.equalToSuperview().inset(101)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
             view.height.equalTo(50)
@@ -119,16 +132,6 @@ extension DownloadViewController {
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
             }
-        }
-    }
-
-    private func listenToNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("NewMessage"), object: nil)
-    }
-
-    @objc func handleNotification(_ notification: Notification) {
-        if let image = notification.userInfo?["imageName"] {
-            self.image.image = UIImage(named: "\(image)")
         }
     }
 }

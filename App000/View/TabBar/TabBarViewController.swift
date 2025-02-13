@@ -18,21 +18,14 @@ class TabBarViewController: UITabBarController {
                                                                    image: "screensaver",
                                                                    vc: ViewControllerFactory.makeScreensaverViewController())
 
-        lazy var downloadViewController = self.createNavigation(title: "Download",
-                                                                image: "download",
-                                                                vc: ViewControllerFactory.makeDownloadViewController())
-
         lazy var settingsViewController = self.createNavigation(title: "Settings",
                                                                 image: "settings",
                                                                 vc: ViewControllerFactory.makeSettingsViewController())
 
-        self.setViewControllers([screensaverViewController, downloadViewController, settingsViewController], animated: true)
+        self.setViewControllers([screensaverViewController, settingsViewController], animated: true)
         NotificationCenter.default.addObserver(self, selector: #selector(setCurrentPageToTeam), name: Notification.Name("ResetCompleted"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(setCurrentPageToTeam), name: NSNotification.Name("NewMessage"), object: nil)
-        self.selectedIndex = 1
 
         screensaverViewController.delegate = self
-        downloadViewController.delegate = self
         settingsViewController.delegate = self
     }
 
@@ -42,13 +35,13 @@ class TabBarViewController: UITabBarController {
 
     private func createNavigation(title: String, image: String, vc: UIViewController) -> UINavigationController {
         let navigation = UINavigationController(rootViewController: vc)
-        self.tabBar.backgroundColor = UIColor.white
-        self.tabBar.barTintColor = UIColor(hex: "#37A2F4")!
+        self.tabBar.backgroundColor = UIColor(hex: "#1C1C1E")
+        self.tabBar.barTintColor = UIColor(hex: "#0084FF")!
         self.tabBar.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
         self.tabBar.layer.borderWidth = 1
 
         let nonselectedTitleColor: UIColor = UIColor.gray.withAlphaComponent(0.7)
-        let selectedTitleColor: UIColor = UIColor(hex: "#37A2F4")!
+        let selectedTitleColor: UIColor = UIColor(hex: "#0084FF")!
 
         let unselectedImage = UIImage(named: image)?
             .withRenderingMode(.alwaysOriginal)
@@ -79,7 +72,6 @@ class TabBarViewController: UITabBarController {
     deinit {
         #if DEBUG
         print("deinit \(String(describing: self))")
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("NewMessage"), object: nil)
         #endif
     }
 }

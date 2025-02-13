@@ -14,16 +14,8 @@ class ScreensaverViewController: BaseViewController, UICollectionViewDelegate {
     var viewModel: ViewModel?
 
     private let header = UILabel(text: "Screensavers",
-                                 textColor: .black,
-                                 font: UIFont(name: "SFProText-Black", size: 28))
-    private let popular = UILabel(text: "Popular",
-                                 textColor: .black,
-                                 font: UIFont(name: "SFProText-Black", size: 20))
-    var popularCollectionView: UICollectionView!
-    
-    private let games = UILabel(text: "Main",
-                                 textColor: .black,
-                                 font: UIFont(name: "SFProText-Black", size: 20))
+                                 textColor: .white,
+                                 font: UIFont(name: "SFProText-Bold", size: 28))
     var nonpopularCollectionView: UICollectionView!
 
     override func viewDidLoad() {
@@ -31,45 +23,21 @@ class ScreensaverViewController: BaseViewController, UICollectionViewDelegate {
         makeButtonsAction()
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("NewMessage"), object: nil)
-    }
-
     override func setupUI() {
         super.setupUI()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(hex: "#1C1C1E")
 
         self.header.textAlignment = .left
-        self.popular.textAlignment = .left
-        self.games.textAlignment = .left
 
-        //MARK: Populat CollectionView's setup
-        let popularlayout = UICollectionViewFlowLayout()
-        popularlayout.itemSize = CGSize(width: 93, height: 122)
-        popularlayout.scrollDirection = .horizontal
-        popularlayout.minimumLineSpacing = 8
-        popularlayout.minimumInteritemSpacing = 8
-
-        popularCollectionView = UICollectionView(frame: .zero, collectionViewLayout: popularlayout)
-        popularCollectionView.showsHorizontalScrollIndicator = false
-        popularCollectionView.backgroundColor = .clear
-
-        popularCollectionView.register(PopularCell.self)
-        popularCollectionView.backgroundColor = .clear
-        popularCollectionView.isScrollEnabled = true
-
-        popularCollectionView.delegate = self
-        popularCollectionView.dataSource = self
-
-        //MARK: Nonpopular CollectionView's setup
+        //MARK: Screensavers CollectionView's setup
         let numberOfColumns: CGFloat = 2
-        let spacing: CGFloat = 12
+        let spacing: CGFloat = 18
         let totalSpacing = ((numberOfColumns - 1) * spacing)
         let availableWidth = self.view.frame.width - totalSpacing
         let itemWidth = availableWidth / numberOfColumns
 
         let nonpopularlayout = UICollectionViewFlowLayout()
-        nonpopularlayout.itemSize = CGSize(width: itemWidth, height: 226)
+        nonpopularlayout.itemSize = CGSize(width: itemWidth, height: 279)
         nonpopularlayout.scrollDirection = .vertical
         nonpopularlayout.minimumLineSpacing = spacing
         nonpopularlayout.minimumInteritemSpacing = spacing
@@ -86,18 +54,13 @@ class ScreensaverViewController: BaseViewController, UICollectionViewDelegate {
         nonpopularCollectionView.dataSource = self
 
         self.view.addSubview(header)
-        self.view.addSubview(popular)
-        self.view.addSubview(popularCollectionView)
-        self.view.addSubview(games)
         self.view.addSubview(nonpopularCollectionView)
         setupConstraints()
     }
 
     override func setupViewModel() {
         super.setupViewModel()
-        viewModel?.loadPopularGames()
-        self.popularCollectionView.reloadData()
-        viewModel?.loadNonPopularGames()
+        viewModel?.loadItems()
         self.nonpopularCollectionView.reloadData()
     }
 
@@ -109,29 +72,8 @@ class ScreensaverViewController: BaseViewController, UICollectionViewDelegate {
             view.height.equalTo(34)
         }
 
-        popular.snp.makeConstraints { view in
-            view.top.equalTo(header.snp.bottom).offset(20)
-            view.leading.equalToSuperview().offset(16)
-            view.trailing.equalToSuperview().inset(16)
-            view.height.equalTo(25)
-        }
-
-        popularCollectionView.snp.makeConstraints { view in
-            view.top.equalTo(popular.snp.bottom).offset(10)
-            view.leading.equalToSuperview().offset(16)
-            view.trailing.equalToSuperview()
-            view.height.equalTo(122)
-        }
-
-        games.snp.makeConstraints { view in
-            view.top.equalTo(popularCollectionView.snp.bottom).offset(20)
-            view.leading.equalToSuperview().offset(16)
-            view.trailing.equalToSuperview().inset(16)
-            view.height.equalTo(25)
-        }
-
         nonpopularCollectionView.snp.makeConstraints { view in
-            view.top.equalTo(games.snp.bottom).offset(10)
+            view.top.equalTo(header.snp.bottom).offset(24)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
             view.bottom.equalToSuperview()
@@ -151,57 +93,44 @@ extension ScreensaverViewController {
         
     }
 
+    private func downloadImage(imageName: String) {
+        guard let navigationController = self.navigationController else { return }
+
+        ScreensaverRouter.showDownloadViewController(in: navigationController,
+                                                     navigationModel: .init(imageName: imageName))
+    }
+
 }
 
 extension ScreensaverViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == popularCollectionView {
-            return self.viewModel?.popularItems.count ?? 0
-        } else if collectionView == nonpopularCollectionView {
-            return self.viewModel?.nonPopularItems.count ?? 0
-        }
-        return 0
+        return self.viewModel?.items.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: PopularCell = collectionView.dequeueReusableCell(for: indexPath)
 
-        if collectionView == popularCollectionView {
-            cell.setup(image: viewModel?.popularItems[indexPath.row].image ?? "")
-        } else if collectionView == nonpopularCollectionView {
-            cell.setup(image: viewModel?.nonPopularItems[indexPath.row].image ?? "")
-        }
+        cell.setup(image: viewModel?.items[indexPath.row].image ?? "")
 
         cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = 4
+        cell.layer.cornerRadius = 30
 
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == popularCollectionView {
-            return CGSize(width: 93, height: 122)
-        } else if collectionView == nonpopularCollectionView {
-            let numberOfColumns: CGFloat = 2
-            let spacing: CGFloat = 12
-            let totalSpacing = ((numberOfColumns - 1) * spacing)
-            let availableWidth = self.view.frame.width - totalSpacing - 32
-            let itemWidth = availableWidth / numberOfColumns
+        let numberOfColumns: CGFloat = 2
+        let spacing: CGFloat = 18
+        let totalSpacing = ((numberOfColumns - 1) * spacing)
+        let availableWidth = self.view.frame.width - totalSpacing - 32
+        let itemWidth = availableWidth / numberOfColumns
 
-            return CGSize(width: itemWidth, height: 226)
-        }
-        return .zero
+        return CGSize(width: itemWidth, height: 279)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == popularCollectionView {
-            if let imageName = self.viewModel?.popularItems[indexPath.row].image {
-                NotificationCenter.default.post(name: NSNotification.Name("NewMessage"), object: nil, userInfo: ["imageName": imageName])
-            }
-        } else if collectionView == nonpopularCollectionView {
-            if let imageName = self.viewModel?.nonPopularItems[indexPath.row].image {
-                NotificationCenter.default.post(name: NSNotification.Name("NewMessage"), object: nil, userInfo: ["imageName": imageName])
-            }
+        if let imageName = self.viewModel?.items[indexPath.row].image {
+            self.downloadImage(imageName: imageName)
         }
     }
 }
