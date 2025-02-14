@@ -22,10 +22,7 @@ public class OnboardingService: IOnboardingService {
                                         subHeader: "Hand-picked selection of 30 premium wallpapers, refreshed every 2 weeks."),
             OnboardingPresentationModel(image: "onboarding2",
                                         header: "Wallpapers Every 2 Weeks",
-                                        subHeader: "Enjoy a brand-new collection of exclusive designs, carefully selected by our editors."),
-            OnboardingPresentationModel(image: "onboarding3",
-                                        header: "Stay Updated & Keep It Fresh",
-                                        subHeader: "Check back regularly for new themes and styles – a fresh look is always waiting!")
+                                        subHeader: "Enjoy a brand-new collection of exclusive designs, carefully selected by our editors.")
         ]
     }
 }

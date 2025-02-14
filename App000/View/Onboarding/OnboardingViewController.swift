@@ -62,7 +62,7 @@ class OnboardingViewController: BaseViewController, UICollectionViewDelegate {
         collectionView.backgroundColor = .clear
         collectionView.isScrollEnabled = false
 
-        pageControl.drawer = ExtendedDotDrawer(numberOfPages: 3,
+        pageControl.drawer = ExtendedDotDrawer(numberOfPages: 2,
                                                height: 10,
                                                width: 10,
                                                space: 8,

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import OneSignalFramework
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        OneSignal.initialize("0379a988-0244-4107-9690-b71811c2c3c3", withLaunchOptions: launchOptions)
         return true
     }
 

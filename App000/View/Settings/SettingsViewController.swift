@@ -20,7 +20,6 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
     private let about = PrivacyAndTermsButton()
     private let terms = PrivacyAndTermsButton()
     private let privacy = PrivacyAndTermsButton()
-    private let notify = NotifButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,13 +35,11 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
         self.about.setTitle("About our project", for: .normal)
         self.terms.setTitle("Terms&Conditions", for: .normal)
         self.privacy.setTitle("Privacy Policy", for: .normal)
-        self.notify.setTitle("Push Notification", for: .normal)
 
         self.view.addSubview(header)
         self.view.addSubview(about)
         self.view.addSubview(terms)
         self.view.addSubview(privacy)
-        self.view.addSubview(notify)
         setupConstraints()
     }
 
@@ -75,13 +72,6 @@ class SettingsViewController: BaseViewController, UICollectionViewDelegate {
 
         privacy.snp.makeConstraints { view in
             view.top.equalTo(terms.snp.bottom).offset(16)
-            view.leading.equalToSuperview().offset(16)
-            view.trailing.equalToSuperview().inset(16)
-            view.height.equalTo(56)
-        }
-
-        notify.snp.makeConstraints { view in
-            view.top.equalTo(privacy.snp.bottom).offset(16)
             view.leading.equalToSuperview().offset(16)
             view.trailing.equalToSuperview().inset(16)
             view.height.equalTo(56)
