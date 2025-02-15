@@ -352,7 +352,6 @@
 				INFOPLIST_FILE = App000/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Aesthetics;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your gallery to save images.";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We use data about your activity in the app to improve the quality of content and advertising. You can disable tracking in the settings.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
@@ -388,7 +387,6 @@
 				INFOPLIST_FILE = App000/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Aesthetics;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your gallery to save images.";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We use data about your activity in the app to improve the quality of content and advertising. You can disable tracking in the settings.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
